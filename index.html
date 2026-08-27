@@ -8,47 +8,105 @@
 </head>
 <body>
 
-  <h1>Biblioteca de Jogos Virtual</h1>
-  <p>Este projeto tem como objetivo catalogar e organizar informações sobre jogos eletrônicos de forma simples e acessível.</p>
+  <header>
+    <h1>Biblioteca de Jogos Virtual</h1>
+    <p>Este projeto tem como objetivo catalogar e organizar informações sobre jogos eletrônicos de forma simples e acessível.</p>
+  </header>
 
-  <h2>Categorias de jogos disponíveis</h2>
-  <ul>
-    <li>RPG</li>
-    <li>Ação e Aventura</li>
-    <li>Estratégia</li>
-  </ul>
+  <main>
 
-  <h2>Alguns jogos do catálogo</h2>
-  <table border="1">
-    <thead>
-      <tr>
-        <th>Jogo</th>
-        <th>Gênero</th>
-        <th>Ano de lançamento</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>The Legend of Zelda: Breath of the Wild</td>
-        <td>Ação e Aventura</td>
-        <td>2017</td>
-      </tr>
-      <tr>
-        <td>The Witcher 3: Wild Hunt</td>
-        <td>RPG</td>
-        <td>2015</td>
-      </tr>
-    </tbody>
-  </table>
+    <section id="categorias">
+      <h2>Categorias de jogos disponíveis</h2>
+      <ul>
+        <li>RPG</li>
+        <li>Ação e Aventura</li>
+        <li>Estratégia</li>
+      </ul>
+    </section>
 
-  <h2>Saiba mais</h2>
-  <p>
-    Para mais informações sobre jogos, consulte a
-    <a href="https://www.metacritic.com/game/" target="_blank" rel="noopener noreferrer">Metacritic</a>.
-  </p>
+    <section id="catalogo">
+      <h2>Alguns jogos do catálogo</h2>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>Jogo</th>
+            <th>Gênero</th>
+            <th>Ano de lançamento</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>The Legend of Zelda: Breath of the Wild</td>
+            <td>Ação e Aventura</td>
+            <td>2017</td>
+          </tr>
+          <tr>
+            <td>The Witcher 3: Wild Hunt</td>
+            <td>RPG</td>
+            <td>2015</td>
+          </tr>
+        </tbody>
+      </table>
 
-  <h2>Imagem ilustrativa</h2>
-  <img src="assets/images/capa-jogo.jpg" alt="Capa do jogo The Legend of Zelda: Breath of the Wild">
+      <p>
+        Para mais informações sobre jogos, consulte a
+        <a href="https://www.metacritic.com/game/" target="_blank" rel="noopener noreferrer">Metacritic</a>.
+      </p>
+
+      <img src="assets/images/capa-jogo.jpg" alt="Capa do jogo The Legend of Zelda: Breath of the Wild">
+    </section>
+
+    <section id="cadastro">
+      <h2>Cadastrar novo jogo</h2>
+      <form action="#" method="post">
+
+        <fieldset>
+          <legend>Dados do jogo</legend>
+
+          <p>
+            <label for="nome-jogo">Nome do jogo:</label>
+            <input type="text" id="nome-jogo" name="nome-jogo" required minlength="2" maxlength="80">
+          </p>
+
+          <p>
+            <label for="ano-lancamento">Ano de lançamento:</label>
+            <input type="number" id="ano-lancamento" name="ano-lancamento" required min="1970" max="2026">
+          </p>
+
+          <p>
+            <label for="genero">Gênero:</label>
+            <select id="genero" name="genero" required>
+              <option value="">Selecione um gênero</option>
+              <option value="rpg">RPG</option>
+              <option value="acao-aventura">Ação e Aventura</option>
+              <option value="estrategia">Estratégia</option>
+              <option value="esportes">Esportes</option>
+            </select>
+          </p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Dados de quem está cadastrando</legend>
+
+          <p>
+            <label for="email-contato">E-mail de contato:</label>
+            <input type="email" id="email-contato" name="email-contato" pattern="[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}">
+          </p>
+        </fieldset>
+
+        <p>
+          <button type="submit">Cadastrar jogo</button>
+          <button type="reset">Limpar formulário</button>
+        </p>
+
+      </form>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Biblioteca de Jogos Virtual — Projeto Integrador Frontend.</p>
+  </footer>
 
   <script src="js/main.js"></script>
 </body>
