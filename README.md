@@ -1,2 +1,1 @@
-# projeto-integrador-frontend--Sefas-Nathan-
-uma biblioteca de jogos virtual
+A Biblioteca Virtual de Jogos será uma plataforma digital que reúne e organiza diversos jogos em um único ambiente. O projeto pretende facilitar o acesso dos usuários aos jogos, permitindo pesquisar e conhecer diferentes opções de entretenimento. Também busca apresentar informações sobre cada jogo, como gênero, descrição e classificação, de forma simples e organizada.
