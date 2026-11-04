@@ -1,0 +1,521 @@
+/* =========================================================
+   BIBLIOTECA DE JOGOS VIRTUAL - style.css
+   Índice:
+   1. Variáveis
+   2. Reset e base
+   3. Cabeçalho, conteúdo e rodapé
+   4. Categorias (cards interativos)
+   5. Catálogo (busca, tabela, selos e imagem)
+   6. Formulário
+   7. Botões
+   8. Responsivo e acessibilidade
+   ========================================================= */
+
+/* 1. VARIÁVEIS ------------------------------------------- */
+:root {
+  color-scheme: dark;
+
+  --bg: #0f1226;
+  --panel: #171b3a;
+  --panel-2: #1f2450;
+  --line: #2d3466;
+  --text: #eceefb;
+  --muted: #a3a9d1;
+
+  --gold: #ffb703;
+  --gold-dark: #b37f00;
+  --gold-ink: #1a1400;
+  --violet: #a58bff;
+  --coral: #ff6b81;
+  --teal: #35d0c1;
+
+  --font-title: "Chakra Petch", "Segoe UI", sans-serif;
+  --font-body: "Outfit", "Segoe UI", sans-serif;
+
+  --radius-sm: 8px;
+  --radius-lg: 16px;
+
+  /* margem lateral que centraliza o conteúdo em até 960px */
+  --side: max(1rem, calc((100% - 960px) / 2));
+}
+
+/* Cor de cada gênero. Usada pelos cards de categoria e pelos selos da tabela */
+[data-genero="rpg"] { --tone: var(--violet); }
+[data-genero="acao-e-aventura"] { --tone: var(--coral); }
+[data-genero="estrategia"] { --tone: var(--teal); }
+[data-genero="esportes"] { --tone: var(--gold); }
+
+/* 2. RESET E BASE ---------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.65;
+}
+
+h1,
+h2 {
+  font-family: var(--font-title);
+  line-height: 1.15;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--gold);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--gold-ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* 3. CABEÇALHO, CONTEÚDO E RODAPÉ ------------------------ */
+/* A grade de fundo lembra a tela de pixels de um jogo retrô */
+header {
+  padding: clamp(3rem, 9vw, 6rem) var(--side);
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(rgba(139, 108, 255, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 108, 255, 0.13) 1px, transparent 1px);
+  background-size: 32px 32px;
+  border-bottom: 4px solid var(--gold);
+}
+
+header h1 {
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  margin-bottom: 1rem;
+  max-width: 16ch;
+}
+
+header p {
+  max-width: 50ch;
+  font-size: 1.2rem;
+  color: var(--muted);
+}
+
+main {
+  padding: 0 var(--side);
+}
+
+main section {
+  padding-block: clamp(2.5rem, 6vw, 4rem);
+  border-bottom: 1px solid var(--line);
+}
+
+main section:last-child {
+  border-bottom: 0;
+}
+
+/* Quadradinho de pixel antes de cada título */
+main h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 1.5rem;
+}
+
+main h2::before {
+  content: "";
+  flex: none;
+  width: 0.7rem;
+  height: 0.7rem;
+  background: var(--gold);
+}
+
+footer {
+  padding: 1.5rem var(--side);
+  background: var(--panel);
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* 4. CATEGORIAS (CARDS INTERATIVOS) --------------------- */
+#categorias ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1rem;
+  list-style: none;
+}
+
+#categorias li {
+  position: relative;
+  padding: 1.25rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-left: 5px solid var(--tone, var(--muted));
+  border-radius: var(--radius-sm);
+  font-family: var(--font-title);
+  font-weight: 600;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+
+#categorias li:hover {
+  background: var(--panel-2);
+  border-color: var(--tone, var(--muted));
+}
+
+/* Categoria selecionada */
+#categorias li:has(.categoria-btn[aria-pressed="true"]) {
+  background: var(--panel-2);
+  border-color: var(--tone, var(--gold));
+  box-shadow: inset 0 0 0 1px var(--tone, var(--gold));
+}
+
+/* O botão parece texto; o ::after estica a área de clique pelo card todo */
+.categoria-btn {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.categoria-btn:hover,
+.categoria-btn:active {
+  background: none;
+  transform: none;
+  box-shadow: none;
+}
+
+.categoria-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-sm);
+}
+
+.categoria-btn:focus-visible {
+  outline: none;
+}
+
+.categoria-btn:focus-visible::after {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* 5. CATÁLOGO ------------------------------------------- */
+.busca {
+  margin-bottom: 1rem;
+}
+
+.busca input {
+  max-width: 420px;
+}
+
+.filtro-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.filtro-limpar {
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--gold);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.filtro-limpar:hover,
+.filtro-limpar:active {
+  background: none;
+  transform: none;
+  box-shadow: none;
+}
+
+/* O JavaScript coloca a tabela dentro desta caixa para rolar no celular */
+.tabela-scroll {
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+table {
+  width: 100%;
+  min-width: 480px;
+  border: 0;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+.tabela-scroll table {
+  margin-bottom: 0;
+}
+
+th,
+td {
+  padding: 0.9rem 1rem;
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+}
+
+th {
+  background: var(--panel-2);
+  color: var(--muted);
+  font-family: var(--font-title);
+  font-size: 0.9rem;
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+tbody tr:hover {
+  background: var(--panel-2);
+}
+
+td:first-child {
+  font-weight: 600;
+}
+
+th:last-child,
+td:last-child {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+tbody .sem-resultados td {
+  text-align: center;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+/* Selo de gênero (criado pelo JavaScript) */
+.badge {
+  display: inline-block;
+  padding: 0.1rem 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--tone, var(--muted)) 55%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tone, var(--muted)) 16%, transparent);
+  color: var(--tone, var(--muted));
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+#catalogo p a:hover {
+  text-decoration-thickness: 2px;
+}
+
+#catalogo img {
+  width: 100%;
+  max-width: 360px;
+  margin-top: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* 6. FORMULÁRIO ----------------------------------------- */
+form {
+  max-width: 560px;
+}
+
+fieldset {
+  padding: 1.5rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+fieldset + fieldset {
+  margin-top: 1rem;
+}
+
+legend {
+  padding-inline: 0.5rem;
+  color: var(--gold);
+  font-family: var(--font-title);
+  font-weight: 600;
+}
+
+fieldset p + p {
+  margin-top: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s;
+}
+
+input:hover,
+select:hover {
+  border-color: var(--muted);
+}
+
+input:focus-visible,
+select:focus-visible {
+  outline-offset: 0;
+  border-color: var(--gold);
+}
+
+/* O erro só aparece depois que a pessoa mexeu no campo */
+input:user-invalid,
+select:user-invalid {
+  border-color: var(--coral);
+}
+
+::placeholder {
+  color: #7c83b0;
+}
+
+option {
+  background: var(--panel);
+  color: var(--text);
+}
+
+form > p:has(> button) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+/* Mensagem de resultado (criada pelo JavaScript) */
+.form-aviso {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--panel-2);
+  border-left: 4px solid var(--teal);
+  border-radius: var(--radius-sm);
+}
+
+.form-aviso--erro {
+  border-left-color: var(--coral);
+}
+
+.form-aviso:empty {
+  display: none;
+}
+
+/* 7. BOTÕES --------------------------------------------- */
+/* Efeito de botão de fliperama: afunda quando clica */
+button {
+  margin-bottom: 4px;
+  padding: 0.8rem 1.75rem;
+  font: inherit;
+  font-weight: 700;
+  color: var(--gold-ink);
+  background: var(--gold);
+  border: 0;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 4px 0 var(--gold-dark);
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 0 var(--gold-dark);
+}
+
+button:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--gold-dark);
+}
+
+button[type="reset"] {
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 0 var(--line);
+}
+
+button[type="reset"]:hover {
+  box-shadow: 0 5px 0 var(--line);
+}
+
+button[type="reset"]:active {
+  box-shadow: 0 1px 0 var(--line);
+}
+
+/* 8. RESPONSIVO E ACESSIBILIDADE ------------------------ */
+@media (max-width: 640px) {
+  fieldset {
+    padding: 1rem;
+  }
+
+  form > p:has(> button) button {
+    flex: 1 1 100%;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
