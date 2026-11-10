@@ -137,7 +137,7 @@ a:active {
 /* SELETOR DE ID: o cabeçalho principal só existe uma vez na página.
    A grade de fundo lembra a tela de pixels de um jogo retrô. */
 #topo {
-  padding: clamp(3rem, 9vw, 6rem) var(--side);
+  padding: var(--space-3) var(--side) clamp(3rem, 9vw, 6rem);
   background-color: var(--bg);
   background-image:
     linear-gradient(rgba(139, 108, 255, 0.13) 1px, transparent 1px),

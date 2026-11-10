@@ -1,0 +1,158 @@
+/* =========================================================
+   layout.css  (Aula 07: Flexbox, Grid e pseudo-classes)
+   Carrega DEPOIS do style.css e usa as variáveis dele.
+
+   Índice:
+   1. Barra de navegação (Flexbox)
+   2. Grade de jogos em destaque (CSS Grid)
+   3. Pseudo-classes estruturais
+   ========================================================= */
+
+/* 1. BARRA DE NAVEGAÇÃO (FLEXBOX) ------------------------ */
+/* display: flex transforma os filhos diretos (logo e menu) em itens de uma
+   linha. justify-content: space-between empurra o logo para a esquerda e o
+   menu para a direita. flex-wrap: wrap deixa o menu cair para a linha de
+   baixo em telas estreitas, sem precisar de media query. */
+.navbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.navbar-logo {
+  font-family: var(--font-title);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* O logo é um link: sem isto ele ficaria violeta depois de visitado */
+.navbar-logo:link,
+.navbar-logo:visited {
+  color: var(--gold);
+}
+
+/* O menu também é um flex container: os <li> ficam lado a lado */
+.navbar-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  list-style-type: none;
+}
+
+.navbar-menu a {
+  display: block;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition:
+    transform var(--transition),
+    background var(--transition);
+}
+
+/* Ordem LoVe/HAte também no menu: link, visited, hover/focus, active */
+.navbar-menu a:link,
+.navbar-menu a:visited {
+  color: var(--text);
+}
+
+/* Estados interativos: o mouse (:hover) e o teclado (:focus-visible)
+   recebem o mesmo destaque, para quem navega só com Tab. */
+.navbar-menu a:hover,
+.navbar-menu a:focus-visible {
+  background: var(--panel-2);
+  color: var(--gold);
+}
+
+/* POR QUE transform E NÃO margin/width/height:
+   transform é aplicado na etapa de composição do navegador (placa de vídeo)
+   e NÃO muda o espaço que o link ocupa. Já margin, width ou height obrigariam
+   o navegador a recalcular o layout (reflow) dos vizinhos a cada quadro da
+   animação, e o menu "tremeria". */
+.navbar-menu a:hover {
+  transform: translateY(-0.125rem);
+}
+
+.navbar-menu a:active {
+  transform: translateY(0);
+}
+
+/* 2. GRADE DE JOGOS EM DESTAQUE (CSS GRID) --------------------- */
+/* repeat(auto-fit, minmax(13rem, 1fr)):
+   - cada coluna tem no mínimo 13rem e divide o espaço que sobrar (1fr);
+   - o navegador calcula sozinho quantas colunas cabem: 4 em tela larga,
+     2 em tablet, 1 no celular. Sem media query;
+   - auto-fit apaga as colunas vazias, então poucos cards esticam e ocupam
+     a linha toda (auto-fill deixaria colunas vazias).
+   min(100%, 13rem) evita barra de rolagem em telas menores que 13rem.
+   As COLUNAS são explícitas (criadas pelo repeat). As LINHAS são implícitas:
+   não declaramos grid-template-rows, então o Grid cria uma linha nova
+   (altura automática) cada vez que os cards não cabem na anterior. */
+.grade-jogos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  gap: var(--space-3);
+  list-style-type: none;
+}
+
+/* Cada card é flex em coluna: o ano (margin-top: auto) vai sempre para o
+   rodapé, e os cards da mesma linha ficam com a mesma altura. */
+.card-jogo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  /* faixa colorida no topo com a cor do gênero (vem do data-genero) */
+  box-shadow: inset 0 0.3rem 0 var(--tone, var(--muted));
+  transition: transform var(--transition);
+}
+
+/* Animação de hover só com transform (motivo explicado na seção 1) */
+.card-jogo:hover {
+  transform: translateY(-0.25rem);
+}
+
+.card-jogo-titulo {
+  margin: 0;
+  font-family: var(--font-title);
+  font-size: 1.15rem;
+  line-height: 1.25;
+}
+
+.card-jogo-descricao {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.card-jogo-ano {
+  margin-top: auto;
+  padding-top: var(--space-1);
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+/* 3. PSEUDO-CLASSES ESTRUTURAIS -------------------------- */
+/* :first-child, o primeiro card é o destaque principal da grade */
+.card-jogo:first-child {
+  border-color: var(--gold);
+}
+
+/* :nth-child(even), cards nas posições 2, 4, 6... ganham um fundo um pouco
+   mais claro. Ajuda o olho a separar um card do outro na grade. */
+.card-jogo:nth-child(even) {
+  background: var(--panel-2);
+}
+
+/* Frase de apoio abaixo do título de uma seção */
+.secao-dica {
+  margin-bottom: var(--space-2);
+  color: var(--muted);
+}
