@@ -1,27 +1,33 @@
 /* =========================================================
    BIBLIOTECA DE JOGOS VIRTUAL - style.css
+   Carrega DEPOIS do reset.css.
+
    Índice:
    1. Variáveis
-   2. Reset e base
-   3. Cabeçalho, conteúdo e rodapé
-   4. Categorias (cards interativos)
-   5. Catálogo (busca, tabela, selos e imagem)
-   6. Formulário
-   7. Botões
-   8. Responsivo e acessibilidade
+   2. Base (tipografia e utilitários)
+   3. Links (ordem LoVe/HAte)
+   4. Cabeçalho, conteúdo e rodapé
+   5. Componentes reutilizáveis (.card, .destaque, .botao)
+   6. Categorias
+   7. Catálogo (busca, tabela e selos)
+   8. Formulário
+   9. Responsivo e movimento reduzido
+
+   Cuidados: sem style="" no HTML, sem !important, ID só para o
+   elemento único (#topo) e o resto com classes.
    ========================================================= */
 
 /* 1. VARIÁVEIS ------------------------------------------- */
 :root {
   color-scheme: dark;
 
+  /* Cores */
   --bg: #0f1226;
   --panel: #171b3a;
   --panel-2: #1f2450;
   --line: #2d3466;
   --text: #eceefb;
   --muted: #a3a9d1;
-
   --gold: #ffb703;
   --gold-dark: #b37f00;
   --gold-ink: #1a1400;
@@ -29,57 +35,63 @@
   --coral: #ff6b81;
   --teal: #35d0c1;
 
+  /* Fontes */
   --font-title: "Chakra Petch", "Segoe UI", sans-serif;
   --font-body: "Outfit", "Segoe UI", sans-serif;
 
-  --radius-sm: 8px;
-  --radius-lg: 16px;
+  /* Espaçamento */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 3rem;
 
-  /* margem lateral que centraliza o conteúdo em até 960px */
-  --side: max(1rem, calc((100% - 960px) / 2));
+  /* Raio de borda */
+  --radius-sm: 0.5rem;
+  --radius-lg: 1rem;
+
+  /* Duração das animações (vira 0s para quem pede menos movimento) */
+  --transition: 0.15s;
+
+  /* Margem lateral que centraliza o conteúdo em até 60rem */
+  --side: max(1rem, calc((100% - 60rem) / 2));
 }
 
-/* Cor de cada gênero. Usada pelos cards de categoria e pelos selos da tabela */
-[data-genero="rpg"] { --tone: var(--violet); }
-[data-genero="acao-e-aventura"] { --tone: var(--coral); }
-[data-genero="estrategia"] { --tone: var(--teal); }
-[data-genero="esportes"] { --tone: var(--gold); }
-
-/* 2. RESET E BASE ---------------------------------------- */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* Cor de cada gênero. Usada pelos cards de categoria e pelos selos da tabela. */
+[data-genero="rpg"] {
+  --tone: var(--violet);
 }
 
+[data-genero="acao-e-aventura"] {
+  --tone: var(--coral);
+}
+
+[data-genero="estrategia"] {
+  --tone: var(--teal);
+}
+
+[data-genero="esportes"] {
+  --tone: var(--gold);
+}
+
+/* 2. BASE ------------------------------------------------ */
+/* POR QUE REM E NÃO PX NO font-size:
+   rem é relativo ao tamanho de fonte que a pessoa configurou no navegador
+   (normalmente 16px). Quem aumenta a fonte por acessibilidade vê o site
+   inteiro crescer junto. Com px o tamanho fica fixo e ignora essa escolha. */
 body {
   font-family: var(--font-body);
   font-size: 1.0625rem;
+  line-height: 1.65;
   color: var(--text);
   background: var(--bg);
-  line-height: 1.65;
 }
 
+/* COMBINADOR DE AGRUPAMENTO (,): h1 e h2 compartilham a mesma fonte de
+   título, então escrevo a regra uma vez só. */
 h1,
 h2 {
   font-family: var(--font-title);
   line-height: 1.15;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-a {
-  color: var(--gold);
-}
-
-[hidden] {
-  display: none !important;
 }
 
 ::selection {
@@ -101,25 +113,49 @@ a {
   white-space: nowrap;
 }
 
-/* 3. CABEÇALHO, CONTEÚDO E RODAPÉ ------------------------ */
-/* A grade de fundo lembra a tela de pixels de um jogo retrô */
-header {
+/* 3. LINKS (ORDEM LoVe/HAte) ----------------------------- */
+/* link, visited, hover, active. Se a ordem mudar, um estado "apaga" o outro,
+   porque todos têm a mesma especificidade e vence o que vem por último. */
+a:link {
+  color: var(--gold);
+}
+
+a:visited {
+  color: var(--violet);
+}
+
+a:hover {
+  color: var(--text);
+  text-decoration-thickness: 0.125rem;
+}
+
+a:active {
+  color: var(--coral);
+}
+
+/* 4. CABEÇALHO, CONTEÚDO E RODAPÉ ------------------------ */
+/* SELETOR DE ID: o cabeçalho principal só existe uma vez na página.
+   A grade de fundo lembra a tela de pixels de um jogo retrô. */
+#topo {
   padding: clamp(3rem, 9vw, 6rem) var(--side);
   background-color: var(--bg);
   background-image:
     linear-gradient(rgba(139, 108, 255, 0.13) 1px, transparent 1px),
     linear-gradient(90deg, rgba(139, 108, 255, 0.13) 1px, transparent 1px);
-  background-size: 32px 32px;
+  background-size: 2rem 2rem;
   border-bottom: 4px solid var(--gold);
 }
 
-header h1 {
-  font-size: clamp(2.25rem, 6vw, 4rem);
-  margin-bottom: 1rem;
+/* COMBINADOR FILHO DIRETO (>): só o h1 e o p que são filhos diretos do
+   cabeçalho. Se um dia houver outro h1 ou p mais fundo dentro dele, esta
+   regra não vaza para eles. */
+#topo > h1 {
   max-width: 16ch;
+  margin-bottom: var(--space-2);
+  font-size: clamp(2.25rem, 6vw, 4rem);
 }
 
-header p {
+#topo > p {
   max-width: 50ch;
   font-size: 1.2rem;
   color: var(--muted);
@@ -129,6 +165,8 @@ main {
   padding: 0 var(--side);
 }
 
+/* COMBINADOR DESCENDENTE (espaço): vale para toda section e todo h2
+   dentro do main, em qualquer profundidade. Fora do main, nada muda. */
 main section {
   padding-block: clamp(2.5rem, 6vw, 4rem);
   border-bottom: 1px solid var(--line);
@@ -138,13 +176,13 @@ main section:last-child {
   border-bottom: 0;
 }
 
-/* Quadradinho de pixel antes de cada título */
+/* Quadradinho de pixel antes de cada título de seção */
 main h2 {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  margin-bottom: var(--space-3);
   font-size: clamp(1.5rem, 3vw, 2rem);
-  margin-bottom: 1.5rem;
 }
 
 main h2::before {
@@ -156,43 +194,108 @@ main h2::before {
 }
 
 footer {
-  padding: 1.5rem var(--side);
+  padding: var(--space-3) var(--side);
   background: var(--panel);
   border-top: 1px solid var(--line);
-  color: var(--muted);
   font-size: 0.9rem;
+  color: var(--muted);
 }
 
-/* 4. CATEGORIAS (CARDS INTERATIVOS) --------------------- */
-#categorias ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 1rem;
-  list-style: none;
-}
+/* 5. COMPONENTES REUTILIZÁVEIS --------------------------- */
 
-#categorias li {
+/* .card: BOX MODEL EXPLÍCITO
+   Conteúdo + padding (1.5rem) + border (1px) + margin (0).
+   Com box-sizing: border-box (reset.css), o card ocupa exatamente a largura
+   da coluna da grade: padding e border ficam DENTRO dela, sem estourar.
+   Confira no DevTools: Elements > clique no card > aba Computed (diagrama). */
+.card {
   position: relative;
-  padding: 1.25rem;
-  background: var(--panel);
+  margin: 0;
+  padding: var(--space-3);
   border: 1px solid var(--line);
-  border-left: 5px solid var(--tone, var(--muted));
   border-radius: var(--radius-sm);
+  background: var(--panel);
+  /* a barra colorida da esquerda é uma sombra interna, não uma borda extra */
+  box-shadow: inset 5px 0 0 var(--tone, var(--muted));
   font-family: var(--font-title);
   font-weight: 600;
-  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+  transition: background var(--transition);
 }
 
-#categorias li:hover {
+.card:hover {
   background: var(--panel-2);
-  border-color: var(--tone, var(--muted));
 }
 
-/* Categoria selecionada */
-#categorias li:has(.categoria-btn[aria-pressed="true"]) {
-  background: var(--panel-2);
+/* Card selecionado: só muda cor da borda e acrescenta contorno */
+.card:has(.categoria-btn[aria-pressed="true"]) {
   border-color: var(--tone, var(--gold));
-  box-shadow: inset 0 0 0 1px var(--tone, var(--gold));
+  outline: 2px solid var(--tone, var(--gold));
+}
+
+/* .destaque: imagem de capa em destaque (desafio extra).
+   object-fit: cover preenche a caixa 3/4 cortando as sobras, em vez de
+   esticar a imagem. Assim a capa não distorce, mesmo se não for 3/4. */
+.destaque {
+  width: 100%;
+  max-width: 20rem;
+  aspect-ratio: 3 / 4;
+  margin-top: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.4);
+  object-fit: cover;
+}
+
+/* .botao: base compartilhada. A cor vem de .botao-primario ou .botao-secundario.
+   --elevacao controla a sombra de "botão de fliperama": sobe no hover e
+   afunda no clique, sem precisar repetir a regra de box-shadow. */
+.botao {
+  margin: 0;
+  padding: 0.8rem 1.75rem;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 var(--elevacao, 4px) 0 var(--sombra);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.botao:hover {
+  --elevacao: 5px;
+  transform: translateY(-1px);
+}
+
+.botao:active {
+  --elevacao: 1px;
+  transform: translateY(3px);
+}
+
+.botao-primario {
+  --sombra: var(--gold-dark);
+  border-color: var(--gold);
+  background: var(--gold);
+  color: var(--gold-ink);
+}
+
+.botao-secundario {
+  --sombra: var(--line);
+  border-color: var(--line);
+  background: transparent;
+  color: var(--text);
+}
+
+/* 6. CATEGORIAS ------------------------------------------ */
+/* COMBINADOR FILHO DIRETO (>): só a lista que é filha direta da seção.
+   list-style-type: none tira as bolinhas, porque cada item virou um card. */
+#categorias > ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: var(--space-2);
+  list-style-type: none;
 }
 
 /* O botão parece texto; o ::after estica a área de clique pelo card todo */
@@ -202,20 +305,11 @@ footer {
   margin: 0;
   padding: 0;
   border: 0;
-  border-radius: 0;
   background: none;
-  box-shadow: none;
   color: inherit;
   font: inherit;
   text-align: left;
   cursor: pointer;
-}
-
-.categoria-btn:hover,
-.categoria-btn:active {
-  background: none;
-  transform: none;
-  box-shadow: none;
 }
 
 .categoria-btn::after {
@@ -234,32 +328,31 @@ footer {
   outline-offset: 2px;
 }
 
-/* 5. CATÁLOGO ------------------------------------------- */
+/* 7. CATÁLOGO -------------------------------------------- */
 .busca {
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-2);
 }
 
+/* COMBINADOR DESCENDENTE: limita só o input que está dentro da .busca */
 .busca input {
-  max-width: 420px;
+  max-width: 26rem;
 }
 
 .filtro-status {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem 1rem;
-  margin-bottom: 1rem;
-  color: var(--muted);
+  gap: 0.5rem var(--space-2);
+  margin-bottom: var(--space-2);
   font-size: 0.95rem;
+  color: var(--muted);
 }
 
 .filtro-limpar {
-  width: auto;
   margin: 0;
   padding: 0;
   border: 0;
   background: none;
-  box-shadow: none;
   color: var(--gold);
   font: inherit;
   font-weight: 600;
@@ -267,70 +360,62 @@ footer {
   cursor: pointer;
 }
 
-.filtro-limpar:hover,
-.filtro-limpar:active {
-  background: none;
-  transform: none;
-  box-shadow: none;
-}
-
 /* O JavaScript coloca a tabela dentro desta caixa para rolar no celular */
 .tabela-scroll {
   overflow-x: auto;
-  margin-bottom: 1.5rem;
-  background: var(--panel);
+  margin-bottom: var(--space-3);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
+  background: var(--panel);
 }
 
+/* border-collapse: collapse junta as bordas das células em uma só linha.
+   Sem isso, cada célula teria a sua borda separada. */
 table {
   width: 100%;
-  min-width: 480px;
-  border: 0;
+  min-width: 30rem;
   border-collapse: collapse;
-  margin-bottom: 1.5rem;
-}
-
-.tabela-scroll table {
-  margin-bottom: 0;
 }
 
 th,
 td {
-  padding: 0.9rem 1rem;
-  text-align: left;
-  border: 0;
-  border-bottom: 1px solid var(--line);
+  padding: 0.9rem var(--space-2);
 }
 
 th {
   background: var(--panel-2);
-  color: var(--muted);
   font-family: var(--font-title);
   font-size: 0.9rem;
+  color: var(--muted);
 }
 
-tbody tr:last-child td {
-  border-bottom: 0;
+/* Linha de cima em cada célula do corpo: o último jogo não gera borda dupla
+   com a caixa, e cada linha escondida pelo filtro leva a sua junto. */
+td {
+  border-top: 1px solid var(--line);
+}
+
+th:not(:last-child),
+td:not(:last-child) {
+  text-align: left;
+}
+
+th:last-child,
+tbody tr:not(.sem-resultados) td:last-child {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+tbody tr:not(.sem-resultados) td:first-child {
+  font-weight: 600;
 }
 
 tbody tr:hover {
   background: var(--panel-2);
 }
 
-td:first-child {
-  font-weight: 600;
-}
-
-th:last-child,
-td:last-child {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-tbody .sem-resultados td {
+.sem-resultados td {
   text-align: center;
-  font-weight: 400;
   color: var(--muted);
 }
 
@@ -341,49 +426,40 @@ tbody .sem-resultados td {
   border: 1px solid color-mix(in srgb, var(--tone, var(--muted)) 55%, transparent);
   border-radius: 999px;
   background: color-mix(in srgb, var(--tone, var(--muted)) 16%, transparent);
-  color: var(--tone, var(--muted));
   font-size: 0.85rem;
   font-weight: 600;
+  color: var(--tone, var(--muted));
 }
 
-#catalogo p a:hover {
-  text-decoration-thickness: 2px;
-}
-
-#catalogo img {
-  width: 100%;
-  max-width: 360px;
-  margin-top: 1.25rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-}
-
-/* 6. FORMULÁRIO ----------------------------------------- */
+/* 8. FORMULÁRIO ------------------------------------------ */
 form {
-  max-width: 560px;
+  max-width: 35rem;
 }
 
 fieldset {
-  padding: 1.5rem;
-  background: var(--panel);
+  min-width: 0;
+  padding: var(--space-3);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
+  background: var(--panel);
 }
 
+/* COMBINADOR DE IRMÃO ADJACENTE (+): só o fieldset que vem logo depois de
+   outro ganha espaço em cima. O primeiro não precisa de margem. */
 fieldset + fieldset {
-  margin-top: 1rem;
+  margin-top: var(--space-2);
 }
 
 legend {
-  padding-inline: 0.5rem;
-  color: var(--gold);
+  padding-inline: var(--space-1);
   font-family: var(--font-title);
   font-weight: 600;
+  color: var(--gold);
 }
 
+/* Mesma ideia: espaço entre os campos, sem sobrar margem no primeiro */
 fieldset p + p {
-  margin-top: 1rem;
+  margin-top: var(--space-2);
 }
 
 label {
@@ -394,16 +470,15 @@ label {
 }
 
 input,
-select,
-textarea {
+select {
   width: 100%;
   padding: 0.75rem 0.9rem;
-  font: inherit;
-  color: var(--text);
-  background: var(--bg);
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
-  transition: border-color 0.15s;
+  background: var(--bg);
+  font: inherit;
+  color: var(--text);
+  transition: border-color var(--transition);
 }
 
 input:hover,
@@ -432,20 +507,23 @@ option {
   color: var(--text);
 }
 
-form > p:has(> button) {
+/* COMBINADOR FILHO DIRETO (>): só o parágrafo que é filho direto do form
+   e tem botão dentro. Os parágrafos dos campos ficam dentro do fieldset,
+   então não são afetados. */
+form > p:has(> .botao) {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-top: 1.25rem;
+  margin-top: var(--space-3);
 }
 
 /* Mensagem de resultado (criada pelo JavaScript) */
 .form-aviso {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: var(--panel-2);
+  margin-top: var(--space-2);
+  padding: var(--space-2);
   border-left: 4px solid var(--teal);
   border-radius: var(--radius-sm);
+  background: var(--panel-2);
 }
 
 .form-aviso--erro {
@@ -456,54 +534,13 @@ form > p:has(> button) {
   display: none;
 }
 
-/* 7. BOTÕES --------------------------------------------- */
-/* Efeito de botão de fliperama: afunda quando clica */
-button {
-  margin-bottom: 4px;
-  padding: 0.8rem 1.75rem;
-  font: inherit;
-  font-weight: 700;
-  color: var(--gold-ink);
-  background: var(--gold);
-  border: 0;
-  border-radius: var(--radius-sm);
-  box-shadow: 0 4px 0 var(--gold-dark);
-  cursor: pointer;
-  transition: transform 0.1s, box-shadow 0.1s;
-}
-
-button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 5px 0 var(--gold-dark);
-}
-
-button:active {
-  transform: translateY(3px);
-  box-shadow: 0 1px 0 var(--gold-dark);
-}
-
-button[type="reset"] {
-  color: var(--text);
-  background: transparent;
-  border: 1px solid var(--line);
-  box-shadow: 0 4px 0 var(--line);
-}
-
-button[type="reset"]:hover {
-  box-shadow: 0 5px 0 var(--line);
-}
-
-button[type="reset"]:active {
-  box-shadow: 0 1px 0 var(--line);
-}
-
-/* 8. RESPONSIVO E ACESSIBILIDADE ------------------------ */
-@media (max-width: 640px) {
+/* 9. RESPONSIVO E MOVIMENTO REDUZIDO --------------------- */
+@media (max-width: 40rem) {
   fieldset {
-    padding: 1rem;
+    padding: var(--space-2);
   }
 
-  form > p:has(> button) button {
+  form > p:has(> .botao) .botao {
     flex: 1 1 100%;
   }
 }
@@ -514,8 +551,9 @@ button[type="reset"]:active {
   }
 }
 
+/* Sem !important: basta zerar a variável que todas as transições usam */
 @media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
+  :root {
+    --transition: 0s;
   }
 }

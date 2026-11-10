@@ -1,0 +1,39 @@
+/* =========================================================
+   reset.css
+   Carrega ANTES do style.css (a ordem dos <link> importa).
+   ========================================================= */
+
+/* box-sizing: border-box em todos os elementos.
+   Assim width e height já incluem padding e border, e nenhum
+   elemento "estoura" a largura do pai quando ganha espaçamento. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* O navegador coloca ~8px de margem no body por padrão. Removemos. */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Agrupamento (,): zera margem e padding padrão dos elementos usados no
+   projeto com uma regra só, em vez de repetir a mesma regra 7 vezes. */
+h1,
+h2,
+p,
+ul,
+fieldset,
+legend,
+figure {
+  margin: 0;
+  padding: 0;
+}
+
+/* Imagens nunca passam da largura da tela. */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
