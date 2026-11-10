@@ -4,11 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Biblioteca de Jogos Virtual</title>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <header>
+  <header id="topo">
     <h1>Biblioteca de Jogos Virtual</h1>
     <p>Este projeto tem como objetivo catalogar e organizar informações sobre jogos eletrônicos de forma simples e acessível.</p>
   </header>
@@ -26,7 +28,7 @@
 
     <section id="catalogo">
       <h2>Alguns jogos do catálogo</h2>
-      <table border="1">
+      <table>
         <thead>
           <tr>
             <th>Jogo</th>
@@ -53,7 +55,7 @@
         <a href="https://www.metacritic.com/game/" target="_blank" rel="noopener noreferrer">Metacritic</a>.
       </p>
 
-      <img src="assets/images/capa-jogo.jpg" alt="Capa do jogo The Legend of Zelda: Breath of the Wild">
+      <img class="destaque" src="assets/images/capa-jogo.jpg" alt="Capa do jogo The Legend of Zelda: Breath of the Wild">
     </section>
     <h2>Primeiro Trailer</h2>
 
@@ -107,8 +109,8 @@
         </fieldset>
 
         <p>
-          <button type="submit">Cadastrar jogo</button>
-          <button type="reset">Limpar formulário</button>
+          <button type="submit" class="botao botao-primario">Cadastrar jogo</button>
+          <button type="reset" class="botao botao-secundario">Limpar formulário</button>
         </p>
 
       </form>

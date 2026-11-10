@@ -1,6 +1,6 @@
 // =========================================================
 // BIBLIOTECA DE JOGOS VIRTUAL - main.js
-// 1. Catálogo: selos de gênero, busca por nome e filtro por categoria
+// 1. Catálogo: selos de gênero, busca e filtro por categoria
 // 2. Formulário: adiciona o jogo cadastrado na tabela
 // =========================================================
 
@@ -44,12 +44,12 @@ function iniciarCatalogo() {
   const rotulo = document.createElement('label');
   rotulo.htmlFor = 'busca-jogo';
   rotulo.className = 'visually-hidden';
-  rotulo.textContent = 'Buscar jogo pelo nome';
+  rotulo.textContent = 'Buscar jogo por nome, gênero ou ano';
 
   const campo = document.createElement('input');
   campo.type = 'search';
   campo.id = 'busca-jogo';
-  campo.placeholder = 'Buscar jogo pelo nome';
+  campo.placeholder = 'Buscar por nome, gênero ou ano';
   campo.autocomplete = 'off';
   busca.append(rotulo, campo);
 
@@ -65,7 +65,7 @@ function iniciarCatalogo() {
   vazio.hidden = true;
   const celulaVazia = document.createElement('td');
   celulaVazia.colSpan = 3;
-  celulaVazia.textContent = 'Nenhum jogo encontrado. Tente outro nome ou limpe os filtros.';
+  celulaVazia.textContent = 'Nenhum jogo encontrado. Tente outra busca ou limpe os filtros.';
   vazio.append(celulaVazia);
   tbody.append(vazio);
 
@@ -89,6 +89,7 @@ function iniciarCatalogo() {
   function prepararCategoria(li) {
     const nome = li.textContent.trim();
     li.dataset.genero = gerarSlug(nome);
+    li.classList.add('card');
 
     const botao = document.createElement('button');
     botao.type = 'button';
@@ -142,7 +143,10 @@ function iniciarCatalogo() {
 
     linhas.forEach((linha) => {
       const naCategoria = !categoria || linha.dataset.genero === categoria;
-      const naBusca = !termo || normalizar(linha.cells[0].textContent).includes(termo);
+      // Cada palavra digitada precisa aparecer em algum lugar da linha
+      // (nome, gênero ou ano), em qualquer ordem
+      const textoLinha = normalizar(linha.textContent);
+      const naBusca = termo.split(/\s+/).every((palavra) => textoLinha.includes(palavra));
       linha.hidden = !(naCategoria && naBusca);
       if (!linha.hidden) visiveis++;
     });
