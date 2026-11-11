@@ -557,3 +557,13 @@ form > p:has(> .botao) {
     --transition: 0s;
   }
 }
+#resultado { display: grid; gap: 1rem; }
+.resumo-jogos { font-weight: 600; }
+.cartao-jogo { border: 1px solid #ccc; border-left-width: 6px; border-radius: 8px; padding: 1rem; }
+.cartao-etiqueta { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.85rem; }
+.faixa-barato { border-left-color: #2e9e5b; }
+.faixa-barato .cartao-etiqueta { background: #d9f3e3; color: #1a5c35; }
+.faixa-medio { border-left-color: #e0a800; }
+.faixa-medio .cartao-etiqueta { background: #fff0c2; color: #6b5200; }
+.faixa-caro { border-left-color: #d64545; }
+.faixa-caro .cartao-etiqueta { background: #fbdcdc; color: #7a1f1f; }
