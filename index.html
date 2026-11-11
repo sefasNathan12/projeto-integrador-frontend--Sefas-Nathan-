@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/faixas.css">
 </head>
 <body>
 
@@ -64,6 +65,7 @@
     </section>
 
     <section id="categorias">
+     
       <h2>Categorias de jogos disponíveis</h2>
       <p class="secao-dica">Clique em uma categoria para filtrar o catálogo abaixo.</p>
       <ul>
@@ -114,6 +116,10 @@
 
       <img class="destaque" src="assets/images/capa-jogo.jpg" alt="Capa do jogo The Legend of Zelda: Breath of the Wild">
     </section>
+    
+    <section id="resultado">
+      <h2>Preços com desconto</h2>
+    </section>
 
     <section id="cadastro">
       <h2>Cadastrar novo jogo</h2>
@@ -130,6 +136,12 @@
           <p>
             <label for="ano-lancamento">Ano de lançamento:</label>
             <input type="number" id="ano-lancamento" name="ano-lancamento" required min="1970" max="2026">
+          </p>
+
+          <p>
+            <label for="preco-jogo">Preço (R$):</label>
+            <input type="number" id="preco-jogo" name="preco-jogo" required min="0" step="0.01" inputmode="decimal">
+            <output id="faixa-previa" class="form-dica" for="preco-jogo"></output>
           </p>
 
           <p>
@@ -167,6 +179,8 @@
     <p>Biblioteca de Jogos Virtual — Projeto Integrador Frontend.</p>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script src="js/main.js" defer></script>
+  <script src="js/script.js" defer></script>
+  <script src="js/logica.js" defer></script>
 </body>
 </html>

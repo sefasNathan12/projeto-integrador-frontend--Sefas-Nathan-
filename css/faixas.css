@@ -1,0 +1,36 @@
+/* =========================================================
+   faixas.css  (Aula 11: resultado dos preços por faixa)
+   Carrega DEPOIS do layout.css. Usa as variáveis do style.css.
+   Os cartões já ganham forma de .card-jogo (layout.css) e o selo
+   de .badge (style.css): aqui só definimos a cor de cada faixa.
+   O JavaScript decide a classe; o CSS decide a aparência.
+   ========================================================= */
+
+.faixa-barato {
+  --tone: var(--teal);
+}
+
+.faixa-medio {
+  --tone: var(--gold);
+}
+
+.faixa-caro {
+  --tone: var(--coral);
+}
+
+.resumo-jogos {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Prévia da faixa embaixo do campo de preço do formulário */
+.form-dica {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.form-dica:empty {
+  display: none;
+}
