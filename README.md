@@ -18,3 +18,27 @@ Pontos a ajustar:
 No geral é um projeto sólido e bem feito, os ajustes são mais de organização do que de correção.
 
 Feita por: Filipe Paredes
+
+Avaliação feita no dia 16/11
+
+### Avaliação complementar
+
+O projeto apresenta uma boa evolução em relação à avaliação anterior, principalmente na parte de funcionalidades. Uma das novidades é a implementação de uma barra de pesquisa e filtros por categoria, permitindo que o usuário encontre jogos pelo nome, gênero ou ano de lançamento.
+
+Também foi adicionado um sistema de cadastro dinâmico, no qual os novos jogos são inseridos diretamente na tabela, sem precisar atualizar a página. Além disso, existe uma verificação para evitar o cadastro de jogos com nomes repetidos.
+
+Outra melhoria interessante está na parte de preços. Foi implementada uma lógica de descontos de 10%, classificação dos jogos por faixa de preço e apresentação dessas informações em cartões. Também foram utilizados métodos de JavaScript, como `map`, `filter`, `reduce` e `sort`, demonstrando a aplicação dos conceitos estudados.
+
+O projeto também ganhou uma funcionalidade de recomendação de jogos baseada nas avaliações, utilizando estruturas condicionais, laços de repetição e cálculos de média.
+
+Na parte visual, percebi melhorias na organização e aparência do site, com a utilização de CSS Grid e Flexbox, tema escuro, efeitos ao passar o mouse sobre os elementos e adaptações para diferentes tamanhos de tela.
+
+**Alguns pontos que ainda podem ser melhorados:**
+
+- O arquivo `logica.js` utiliza vários `prompts` assim que a página é carregada. Seria interessante pensar em uma forma de tornar essa interação mais integrada à própria página.
+- A atualização dos cartões de preços poderia ser melhor integrada ao cadastro de novos jogos, para que as informações sejam atualizadas automaticamente.
+- O campo de e-mail ainda poderia receber a validação de preenchimento obrigatório, conforme já mencionado na avaliação anterior.
+
+No geral, gostei da evolução do projeto. Foram adicionadas funcionalidades interessantes que tornam o site mais interativo e completo. Também é possível perceber uma boa aplicação dos conhecimentos de HTML, CSS e JavaScript, principalmente na manipulação de elementos da página e no tratamento dos dados.
+
+Avaliador: João Paulo Felizardo da Silva
